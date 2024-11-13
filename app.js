@@ -15,11 +15,15 @@ const port = process.env.PORT || 5000;
 app.use(morgan("tiny"));
 app.use(express.json());
 
+// Routers
+const authRouter = require("./routes/authRoutes");
+
 // Routes
 app.get("/", (req, res) => {
   res.send("E-Comm Server").status(200);
   return;
 });
+app.use("/api/v1/auth", authRouter);
 
 // Last Middlewares
 app.use(notFoundMiddleware);
