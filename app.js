@@ -1,40 +1,57 @@
+// Load environment variables from .env file
 require("dotenv").config();
-require("express-async-errors");
+
+// Importing necessary dependencies
 const express = require("express");
+const morgan = require("morgan");
+require("express-async-errors"); // To handle asynchronous errors in middleware
+
+// Database connection
 const connectDB = require("./db/connect");
+
+// Middleware for handling 404 and errors
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
-// Other packages
-const morgan = require("morgan");
 
-// Server Setup
-const app = express();
-const port = process.env.PORT || 5000;
-
-// Middleware
-app.use(morgan("tiny"));
-app.use(express.json());
-
-// Routers
+// Routes
 const authRouter = require("./routes/authRoutes");
+
+// Initialize express app
+const app = express();
+
+// Define server port from environment variables or default to 5000
+const PORT = process.env.PORT || 5000;
+
+// Global middlewares
+app.use(morgan("tiny")); // Logging middleware for development
+app.use(express.json()); // Middleware to parse JSON requests
 
 // Routes
 app.get("/", (req, res) => {
-  res.send("E-Comm Server").status(200);
-  return;
+  res.status(200).send("E-Comm Server"); // Root route with success status
 });
+
+// Routes
 app.use("/api/v1/auth", authRouter);
 
-// Last Middlewares
+// Middleware for handling 404 errors
 app.use(notFoundMiddleware);
+
+// Custom error handling middleware
 app.use(errorHandlerMiddleware);
 
-const start = async () => {
+// Start the server and connect to the database
+const startServer = async () => {
   try {
+    // Connect to MongoDB database
     await connectDB(process.env.MONGO_URI);
-    app.listen(port, console.log(`Listening on ${port}`));
-  } catch (error) {}
+    // Start listening on specified port
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1); // Exit process with failure code
+  }
 };
 
-// Start Server
-start();
+// Execute start function to initialize server
+startServer();
