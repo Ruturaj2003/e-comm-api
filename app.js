@@ -17,6 +17,7 @@ const errorHandlerMiddleware = require("./middleware/error-handler");
 
 // Routes
 const authRouter = require("./routes/authRoutes");
+const userRouter = require("./routes/userRoutes");
 
 // Initialize express app
 const app = express();
@@ -36,7 +37,7 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use("/api/v1/auth", authRouter);
-
+app.use("/api/v1/users", userRouter);
 // Middleware for handling 404 errors
 app.use(notFoundMiddleware);
 
