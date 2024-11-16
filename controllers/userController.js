@@ -3,8 +3,8 @@ const User = require("../models/User");
 const CustomError = require("../errors");
 
 const getAllUsers = async (req, res) => {
+  console.log(req.user);
   const allUsers = await User.find({ role: "user" }).select("-password");
-
   res.status(StatusCodes.OK).json({ allUsers });
 };
 const getSingleUser = async (req, res) => {
