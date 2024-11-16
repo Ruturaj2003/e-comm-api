@@ -3,7 +3,7 @@ const { createJWT } = require("../utils");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
 const User = require("../models/User");
-c;
+
 const register = async (req, res) => {
   const { name, email, password } = req.body;
 
