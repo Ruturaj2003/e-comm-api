@@ -4,6 +4,8 @@ require("dotenv").config();
 // Importing necessary dependencies
 const express = require("express");
 const morgan = require("morgan");
+
+const cookieParser = require("cookie-parser");
 require("express-async-errors"); // To handle asynchronous errors in middleware
 
 // Database connection
@@ -25,6 +27,7 @@ const PORT = process.env.PORT || 5000;
 // Global middlewares
 app.use(morgan("tiny")); // Logging middleware for development
 app.use(express.json()); // Middleware to parse JSON requests
+app.use(cookieParser()); // Middleware to parse Cookies received
 
 // Routes
 app.get("/", (req, res) => {
