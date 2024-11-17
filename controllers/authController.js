@@ -46,7 +46,7 @@ const login = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ user: tokenUser });
 };
 const logout = async (req, res) => {
-  res.cookie("token", "dota", {
+  res.cookie("token", "test", {
     httpOnly: true,
     expires: new Date(Date.now() + 5000),
   });
