@@ -16,7 +16,7 @@ const router = express.Router();
 const adminOnly = [authenticateUser, authorizePermissions("admin")];
 
 router.route("/").post(adminOnly, createProduct).get(getAllProducts);
-router.route("/uploadImage").post(adminOnly, updateProduct);
+router.route("/uploadImage").post(adminOnly, uploadImage);
 
 router
   .route("/:id")
