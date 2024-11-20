@@ -3,6 +3,7 @@ require("dotenv").config();
 
 // Importing necessary dependencies
 const express = require("express");
+const expressFileUpload = require("express-fileupload");
 const morgan = require("morgan");
 
 const cookieParser = require("cookie-parser");
@@ -30,6 +31,8 @@ const PORT = process.env.PORT || 5000;
 app.use(morgan("tiny")); // Logging middleware for development
 app.use(express.json()); // Middleware to parse JSON requests
 app.use(cookieParser(process.env.JWT_SECRET)); // Middleware to parse Cookies received
+app.use(express.static("./public")); //Make Folder Resources public
+app.use(expressFileUpload());
 
 // Routes
 app.get("/", (req, res) => {
