@@ -5,6 +5,10 @@ require("dotenv").config();
 const express = require("express");
 const expressFileUpload = require("express-fileupload");
 const morgan = require("morgan");
+const helmet = require("helmet");
+const xss = require("xss-clean");
+const cors = require("cors");
+const mogoSanitize = require("express-mongo-sanitize");
 
 const cookieParser = require("cookie-parser");
 require("express-async-errors"); // To handle asynchronous errors in middleware
@@ -30,6 +34,13 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Global middlewares
+
+app.set("trust proxy");
+app.use(helmet());
+app.use(cors());
+app.use(xss());
+app.use(mogoSanitize());
+
 app.use(morgan("tiny")); // Logging middleware for development
 app.use(express.json()); // Middleware to parse JSON requests
 app.use(cookieParser(process.env.JWT_SECRET)); // Middleware to parse Cookies received
